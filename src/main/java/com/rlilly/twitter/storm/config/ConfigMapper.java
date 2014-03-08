@@ -24,6 +24,8 @@ public class ConfigMapper {
 			BaseConfig.accessToken = stormConfig.twitter.accessToken;
 			BaseConfig.accessTokenSecret = stormConfig.twitter.accessTokenSecret;
 			
+			_logger.info("Success");
+			
 		} catch (JsonParseException e) {
 			_logger.error(e);
 			_logger.fatal("Malformed configuration file: " + Base.FILE_CONFIG);

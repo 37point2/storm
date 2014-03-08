@@ -1,3 +1,4 @@
 target/
 conf/storm.json
-storm.log
+storm.lo*
+dependency-reduced-pom.xml

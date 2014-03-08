@@ -1,0 +1,8 @@
+{
+	"twitter":{
+		"apiKey":"",
+		"apiSecret":"",
+		"accessToken":"",
+		"accessTokenSecret":""
+	}
+}
