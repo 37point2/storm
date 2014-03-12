@@ -3,6 +3,7 @@ package com.rlilly.twitter.storm.spouts;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import twitter4j.Status;
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.IRichSpout;
@@ -12,17 +13,16 @@ import backtype.storm.tuple.Values;
 
 public class TweetSpout implements IRichSpout {
 	
-	LinkedBlockingQueue<String> _msgQueue;
+	LinkedBlockingQueue<Status> _tweetQueue;
 	SpoutOutputCollector _collector;
 	
-	public TweetSpout(LinkedBlockingQueue<String> msgQueue) {
-		_msgQueue = msgQueue;
+	public TweetSpout(LinkedBlockingQueue<Status> tweetQueue) {
+		_tweetQueue = tweetQueue;
 	}
 	
 	@Override
-	public void ack(Object arg0) {
-		// TODO Auto-generated method stub
-		
+	public void ack(Object msgId) {
+		System.out.println("Acked " + msgId);
 	}
 
 	@Override
@@ -44,17 +44,19 @@ public class TweetSpout implements IRichSpout {
 	}
 
 	@Override
-	public void fail(Object arg0) {
-		// TODO Auto-generated method stub
-		
+	public void fail(Object msgId) {
+		System.out.println("Failed " + msgId);
 	}
 
 	@Override
 	public void nextTuple() {
 		try {
-			String msg = _msgQueue.take();
-			_collector.emit(new Values(msg));
+			Status status = _tweetQueue.take();
+			Object msgId = status.getId();
+			_collector.emit(new Values(status.getText(), status.getUser().getScreenName()), msgId);
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -67,7 +69,7 @@ public class TweetSpout implements IRichSpout {
 
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields("tweet"));
+		declarer.declare(new Fields("tweet", "user"));
 	}
 
 	@Override

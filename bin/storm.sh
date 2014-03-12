@@ -1,1 +1,1 @@
-/usr/bin/java -Djava.library.path=/usr/local/lib -mx256m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false -Djava.util.prefs.systemRoot=/tmp/.java -cp conf:target/storm-0.0.1.jar com.rlilly.twitter.storm.Storm
+/usr/bin/java -Djava.library.path=/usr/local/lib -mx2048m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv6Addresses=false -Djava.util.prefs.systemRoot=/tmp/.java -cp conf:target/storm-0.0.1.jar com.rlilly.twitter.storm.Storm

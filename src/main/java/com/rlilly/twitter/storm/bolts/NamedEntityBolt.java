@@ -20,6 +20,7 @@ public class NamedEntityBolt implements IRichBolt {
 
 	@Override
 	public void execute(Tuple tuple) {
+		System.out.println(tuple.getString(0));
 		_collector.ack(tuple);
 	}
 
