@@ -72,8 +72,8 @@ private static Logger _logger = Logger.getLogger(Storm.class);
 		_builder.setSpout("tweets", new TweetSpout(this._tweetQueue), 1);
 		_builder.setBolt("message", new MessageBolt(), 1)
 			.shuffleGrouping("tweets");
-		_builder.setBolt("namedentity", new NamedEntityBolt(), 1)
-			.shuffleGrouping("message");
+		//_builder.setBolt("namedentity", new NamedEntityBolt(), 5)
+		//	.shuffleGrouping("message");
 	}
 	
 	private void initCluster() {
@@ -81,7 +81,8 @@ private static Logger _logger = Logger.getLogger(Storm.class);
 		
 		Config conf = new Config();
 		conf.setDebug(true);
-		//conf.setNumWorkers(10);
+		conf.setMaxSpoutPending(500);
+		conf.setNumWorkers(10);
 		
 		this.cluster = new LocalCluster();
 		cluster.submitTopology("test", conf, _builder.createTopology());

@@ -4,14 +4,17 @@ import java.util.Map;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
+import backtype.storm.topology.BasicOutputCollector;
+import backtype.storm.topology.IBasicBolt;
 import backtype.storm.topology.IRichBolt;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Tuple;
 
-public class NamedEntityBolt implements IRichBolt {
+public class NamedEntityBolt implements IBasicBolt {
 	
-	OutputCollector _collector;
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void cleanup() {
 		// TODO Auto-generated method stub
@@ -19,14 +22,12 @@ public class NamedEntityBolt implements IRichBolt {
 	}
 
 	@Override
-	public void execute(Tuple tuple) {
+	public void execute(Tuple tuple, BasicOutputCollector collector) {
 		System.out.println(tuple.getString(0));
-		_collector.ack(tuple);
 	}
 
 	@Override
-	public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
-		_collector = collector;
+	public void prepare(Map conf, TopologyContext context) {
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import backtype.storm.tuple.Values;
 
 public class TweetSpout implements IRichSpout {
 	
+	private static final long serialVersionUID = -1370623000406719050L;
 	LinkedBlockingQueue<Status> _tweetQueue;
 	SpoutOutputCollector _collector;
 	
@@ -51,6 +52,7 @@ public class TweetSpout implements IRichSpout {
 	@Override
 	public void nextTuple() {
 		try {
+			Thread.sleep(100);
 			Status status = _tweetQueue.take();
 			Object msgId = status.getId();
 			_collector.emit(new Values(status.getText(), status.getUser().getScreenName()), msgId);
